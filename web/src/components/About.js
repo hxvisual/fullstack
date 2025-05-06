@@ -31,7 +31,7 @@ const About = () => {
         
         <div className="stats">
           <div className="stat">
-            <span className="stat-number">0</span>
+            <span className="stat-number">15M+</span>
             <span className="stat-label">Треков доступно</span>
           </div>
           <div className="stat">
