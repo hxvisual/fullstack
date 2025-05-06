@@ -257,8 +257,9 @@ async def perform_search(message: Message, query: str):
 # Запуск бота
 async def main():
     logger.info("Бот запущен")
+    logger.info("Режим skip_updates активирован: старые сообщения игнорируются")
     try:
-        await dp.start_polling(bot)
+        await dp.start_polling(bot, skip_updates=True)
     finally:
         await bot.session.close()
 
