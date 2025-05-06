@@ -25,7 +25,7 @@ dp = Dispatcher()
 @dp.message(Command("start"))
 async def cmd_start(message: Message):
     await message.answer(
-        f"Привет, {message.from_user.first_name}! Я ваш бот-ассистент."
+        f"Привет, {message.from_user.first_name}! Я ваш бот-ассистент. КУКУ ЕПТА!"
     )
     logger.info(f"Пользователь {message.from_user.id} запустил бота")
 
