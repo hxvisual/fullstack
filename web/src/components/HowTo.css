@@ -1,6 +1,25 @@
 .howto {
-  padding: 4rem 0;
-  background-color: var(--bg-color);
+  padding: 5rem 0;
+  background-color: var(--bg-secondary);
+  position: relative;
+  width: 100%;
+}
+
+.howto::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: 0;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(156, 39, 176, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.howto .container {
+  position: relative;
+  z-index: 1;
 }
 
 .steps {
@@ -10,8 +29,15 @@
 
 .step {
   display: flex;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   position: relative;
+  opacity: 0.92;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.step:hover {
+  opacity: 1;
+  transform: translateX(5px);
 }
 
 .step:last-child {
@@ -19,67 +45,130 @@
 }
 
 .step-number {
-  background-color: var(--primary-color);
+  background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
   color: white;
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   margin-right: 1.5rem;
   flex-shrink: 0;
+  box-shadow: 0 5px 15px rgba(156, 39, 176, 0.3);
+  z-index: 2;
 }
 
 .step-content {
   padding-top: 0.5rem;
+  flex: 1;
 }
 
 .step-content h3 {
   margin-top: 0;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
   color: var(--text-color);
+  font-size: 1.4rem;
+  font-weight: 600;
 }
 
 .step-content p {
-  color: #666;
-  line-height: 1.6;
+  color: var(--text-secondary);
+  line-height: 1.7;
   margin: 0;
+  font-size: 1rem;
 }
 
 /* Создаем вертикальную линию между шагами */
 .step:not(:last-child)::after {
   content: '';
   position: absolute;
-  top: 40px;
-  left: 20px;
+  top: 50px;
+  left: 25px;
   width: 2px;
-  height: calc(100% - 20px);
-  background-color: var(--primary-color);
+  height: calc(100% - 30px);
+  background: linear-gradient(to bottom, var(--primary-color), transparent);
+  z-index: 1;
+}
+
+@media (max-width: 992px) {
+  .howto {
+    padding: 4rem 0;
+  }
+  
+  .step-number {
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+  }
+  
+  .step-content h3 {
+    font-size: 1.3rem;
+  }
 }
 
 @media (max-width: 768px) {
+  .howto {
+    padding: 3.5rem 0;
+  }
+  
   .step {
     flex-direction: column;
     padding-left: 30px;
     position: relative;
+    margin-bottom: 2.5rem;
   }
   
   .step-number {
     position: absolute;
-    left: -20px;
+    left: -25px;
     top: 0;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
   }
   
   .step-content {
     padding-top: 0;
+    padding-left: 20px;
   }
   
   .step:not(:last-child)::after {
-    left: -9px;
+    left: -5px;
     top: 40px;
     height: calc(100% - 10px);
+  }
+}
+
+@media (max-width: 576px) {
+  .howto {
+    padding: 3rem 0;
+  }
+  
+  .step {
+    margin-bottom: 2rem;
+  }
+  
+  .step-content h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.6rem;
+  }
+  
+  .step-content p {
+    font-size: 0.95rem;
+  }
+  
+  .step-number {
+    width: 35px;
+    height: 35px;
+    font-size: 1.1rem;
+    left: -20px;
+  }
+  
+  .step:not(:last-child)::after {
+    left: -2.5px;
+    top: 35px;
   }
 }

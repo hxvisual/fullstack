@@ -2,15 +2,70 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  overflow-x: hidden;
+  width: 100%;
 }
 
 main {
   flex: 1;
+  width: 100%;
 }
 
-/* Убираем стандартные стили для контейнеров, определенные в других компонентах */
+/* Стили для контейнеров */
 .App .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
-} 
+  padding: 0 1.5rem;
+  width: 100%;
+}
+
+/* Глобальные стили для всех секций */
+section {
+  position: relative;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Анимации для прокрутки */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Скроллбар */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-color);
+}
+
+/* Медиа-запросы для адаптивности */
+@media (max-width: 576px) {
+  .App .container {
+    padding: 0 1rem;
+  }
+  
+  section {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
