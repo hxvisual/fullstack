@@ -40,11 +40,11 @@ yarn-debug.log
 yarn-error.log
 .pnp/
 .pnp.js
-package-lock.json
 
 # React build
 web/build/
 web/dist/
+web/package-lock.json
 
 # IDE specific files
 .idea/
