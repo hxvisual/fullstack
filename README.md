@@ -62,7 +62,7 @@ HX Music Bot — это Telegram бот для поиска и скачиван�
 
 1. Клонировать репозиторий:
 ```bash
-git clone https://github.com/yourusername/hx-music-bot.git
+git clone https://github.com/hxvisual/fullstack.git
 cd hx-music-bot
 ```
 
@@ -122,6 +122,7 @@ npm run build
 
 1. Настроить сервер:
 ```bash
+chmod +x deploy.sh
 chmod +x server-setup.sh
 ./server-setup.sh
 ```
