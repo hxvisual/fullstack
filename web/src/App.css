@@ -1,34 +1,162 @@
-.App {
-  min-height: 100vh;
+:root {
+  --primary-color: #8B5CF6;
+  --primary-dark: #7349D1;
+  --primary-light: #A78BFA;
+  --secondary-color: #111111;
+  --text-color: #F8F8F8;
+  --bg-color: #121212;
+  --bg-secondary: #1A1A1A;
+  --gray-light: #2D2D2D;
+  --gray-medium: #444444;
+  --gray-dark: #666666;
+  --accent-color: #D946EF;
+  --accent-light: #E879F9;
+  --font-main: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-heading: 'Montserrat', 'Roboto', sans-serif;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+  --border-radius: 8px;
+  --transition: all 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-main);
+  color: var(--text-color);
+  line-height: 1.6;
+  background-color: var(--bg-color);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+}
+
+a {
+  text-decoration: none;
+  color: var(--primary-light);
+  transition: var(--transition);
+}
+
+a:hover {
+  color: var(--accent-light);
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.8rem 1.8rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  cursor: pointer;
+  border: none;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: width 0.3s ease;
+  z-index: -1;
+}
+
+.btn:hover::before {
+  width: 100%;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--primary-light);
+  border: 2px solid var(--primary-color);
+}
+
+.btn-secondary:hover {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-small {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border-radius: var(--border-radius);
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-small:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+section {
+  padding: 5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+section::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--primary-light), transparent);
+}
+
+.app {
   display: flex;
   flex-direction: column;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  overflow-x: hidden;
-  width: 100%;
+  min-height: 100vh;
 }
 
 main {
   flex: 1;
-  width: 100%;
 }
 
-/* Стили для контейнеров */
-.App .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-  width: 100%;
-}
-
-/* Глобальные стили для всех секций */
-section {
-  position: relative;
-  width: 100%;
-  overflow-x: hidden;
-}
-
-/* Анимации для прокрутки */
+/* Анимации */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -40,9 +168,40 @@ section {
   }
 }
 
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px var(--primary-color);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--primary-color);
+  }
+  100% {
+    box-shadow: 0 0 5px var(--primary-color);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.8s ease forwards;
+}
+
+.animate-slideIn {
+  animation: slideIn 0.8s ease forwards;
+}
+
 /* Скроллбар */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -51,21 +210,53 @@ section {
 
 ::-webkit-scrollbar-thumb {
   background: var(--primary-color);
-  border-radius: 5px;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--secondary-color);
+  background: var(--primary-light);
 }
 
 /* Медиа-запросы для адаптивности */
+@media (max-width: 992px) {
+  section {
+    padding: 4rem 0;
+  }
+  
+  h2 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1.25rem;
+  }
+  
+  section {
+    padding: 3.5rem 0;
+  }
+  
+  h2 {
+    font-size: 1.6rem;
+  }
+}
+
 @media (max-width: 576px) {
-  .App .container {
+  .container {
     padding: 0 1rem;
   }
   
   section {
-    padding-left: 0;
-    padding-right: 0;
+    padding: 3rem 0;
+  }
+  
+  h2 {
+    font-size: 1.4rem;
+  }
+  
+  .btn {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.9rem;
   }
 }

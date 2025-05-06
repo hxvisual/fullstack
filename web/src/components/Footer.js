@@ -8,27 +8,50 @@ const Footer = () => {
     <footer className="footer">
       <div className="container">
         <div className="footer-content">
-          <div className="footer-info">
-            <h3>Telegram Bot</h3>
-            <p>Ваш персональный помощник на каждый день</p>
+          <div className="footer-logo">
+            <span className="logo-icon">🎵</span>
+            <span className="logo-text">HX Music Bot</span>
+            <p className="footer-tagline">Ваша музыка всегда под рукой</p>
           </div>
+          
           <div className="footer-links">
-            <h4>Полезные ссылки</h4>
-            <ul>
-              <li><a href="#features">Возможности</a></li>
-              <li><a href="#howto">Как использовать</a></li>
-              <li><a href="#about">О боте</a></li>
-              <li><a href="https://t.me/your_bot_username" target="_blank" rel="noopener noreferrer">Открыть в Telegram</a></li>
-            </ul>
-          </div>
-          <div className="footer-contact">
-            <h4>Контакты</h4>
-            <p>Email: <a href="mailto:contact@example.com">contact@example.com</a></p>
-            <p>Telegram: <a href="https://t.me/your_username" target="_blank" rel="noopener noreferrer">@your_username</a></p>
+            <div className="footer-links-column">
+              <h3>Навигация</h3>
+              <ul>
+                <li><a href="#home">Главная</a></li>
+                <li><a href="#features">Возможности</a></li>
+                <li><a href="#how-to">Как пользоваться</a></li>
+                <li><a href="#about">О боте</a></li>
+              </ul>
+            </div>
+            
+            <div className="footer-links-column">
+              <h3>Контакты</h3>
+              <ul>
+                <li><a href="https://t.me/hxmusic_robot" target="_blank" rel="noopener noreferrer">Telegram</a></li>
+                <li><a href="mailto:support@hxmusicbot.com">Поддержка</a></li>
+              </ul>
+            </div>
+            
+            <div className="footer-links-column">
+              <h3>Правовая информация</h3>
+              <ul>
+                <li><a href="#privacy">Политика конфиденциальности</a></li>
+                <li><a href="#terms">Условия использования</a></li>
+              </ul>
+            </div>
           </div>
         </div>
+        
+        <div className="footer-decoration">
+          <div className="footer-glow"></div>
+        </div>
+        
         <div className="footer-bottom">
-          <p>&copy; {currentYear} Telegram Bot. Все права защищены.</p>
+          <p>&copy; {currentYear} HX Music Bot. Все права защищены.</p>
+          <p className="disclaimer">
+            HX Music Bot не хранит музыкальные файлы. Бот предоставляет доступ к музыке из открытых источников.
+          </p>
         </div>
       </div>
     </footer>
