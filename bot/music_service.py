@@ -121,7 +121,7 @@ class MusicService:
             f"🔗 <a href='{track['external_url']}'>Слушать на Spotify</a>"
         )
         
-        return text
+        return text 
         
     async def download_full_song(self, track):
         """

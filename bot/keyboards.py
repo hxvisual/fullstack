@@ -54,8 +54,8 @@ def get_track_inline_keyboard(track):
         InlineKeyboardButton(
             text="🔍 Новый поиск",
             callback_data="new_search"
+            )
         )
-    )
     
     # Настройка сетки кнопок
     builder.adjust(1)

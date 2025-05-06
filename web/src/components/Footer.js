@@ -17,11 +17,11 @@ const Footer = () => {
           <div className="footer-links">
             <div className="footer-links-column">
               <h3>Навигация</h3>
-              <ul>
+            <ul>
                 <li><a href="#home">Главная</a></li>
-                <li><a href="#features">Возможности</a></li>
+              <li><a href="#features">Возможности</a></li>
                 <li><a href="#how-to">Как пользоваться</a></li>
-                <li><a href="#about">О боте</a></li>
+              <li><a href="#about">О боте</a></li>
               </ul>
             </div>
             
@@ -38,8 +38,8 @@ const Footer = () => {
               <ul>
                 <li><a href="#privacy">Политика конфиденциальности</a></li>
                 <li><a href="#terms">Условия использования</a></li>
-              </ul>
-            </div>
+            </ul>
+          </div>
           </div>
         </div>
         
