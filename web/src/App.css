@@ -1,0 +1,16 @@
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+/* Убираем стандартные стили для контейнеров, определенные в других компонентах */
+.App .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+} 
