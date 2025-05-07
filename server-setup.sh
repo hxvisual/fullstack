@@ -16,7 +16,7 @@ sudo chown $USER:$USER /var/www/bot.hxvisual.ru
 
 # Клонируем репозиторий
 echo "Клонируем репозиторий..."
-git clone https://github.com/your-username/your-repo.git /var/www/bot.hxvisual.ru
+git clone https://github.com/hxvisual/fullstack.git /var/www/bot.hxvisual.ru
 
 # Настраиваем бота
 cd /var/www/bot.hxvisual.ru/bot
@@ -29,6 +29,8 @@ echo "Создаем файл окружения для бота..."
 cat << EOF > .env
 BOT_TOKEN=your_bot_token_here
 ADMIN_ID=your_admin_telegram_id
+SPOTIFY_CLIENT_ID=spotify_client_id
+SPOTIFY_CLIENT_SECRET=spotify_client_secret
 EOF
 
 # Создаем сервис systemd для автозапуска бота
