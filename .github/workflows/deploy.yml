@@ -24,4 +24,4 @@ jobs:
 
     - name: Deploy to server
       run: |
-        ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "cd /var/www/test.hxvisual.ru && git pull origin main && ./deploy.sh" 
+        ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "cd /var/www/bot.hxvisual.ru && git pull origin main && ./deploy.sh" 
