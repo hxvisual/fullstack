@@ -2,6 +2,11 @@ import os
 import spotipy
 import requests
 import yt_dlp
+import tempfile
+import json
+import platform
+import subprocess
+from pathlib import Path
 from spotipy.oauth2 import SpotifyClientCredentials
 from loguru import logger
 
@@ -25,8 +30,17 @@ class MusicService:
             )
             self.spotify = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
             logger.info("Spotify API клиент успешно инициализирован")
+            
+            # Проверка наличия куки для YouTube
+            self.cookies_file = os.getenv('YOUTUBE_COOKIES_FILE')
+            
+            if self.cookies_file and os.path.exists(self.cookies_file):
+                logger.info(f"Файл с куки для YouTube найден: {self.cookies_file}")
+            else:
+                logger.info("Файл с куки не найден, будет использоваться стандартный метод загрузки")
+                    
         except Exception as e:
-            logger.error(f"Ошибка при инициализации Spotify API: {e}")
+            logger.error(f"Ошибка при инициализации: {e}")
             raise
     
     async def search_track(self, query, limit=5):
@@ -151,7 +165,7 @@ class MusicService:
                 logger.info(f"Файл уже существует: {output_file}")
                 return output_file
             
-            # Опции для yt-dlp
+            # Общие опции для yt-dlp
             ydl_opts = {
                 'format': 'bestaudio/best',
                 'outtmpl': output_file,
@@ -164,23 +178,98 @@ class MusicService:
                     'preferredcodec': 'mp3',
                     'preferredquality': '192',
                 }],
+                # Расширенные опции для обхода ограничений
+                'geo_bypass': True,
+                'geo_bypass_country': 'US',
+                'age_limit': 25,  # Установим сразу высокий возрастной лимит
+                'nocheckcertificate': True,
+                # Автоматически включаем поиск, если строка не является URL
+                'default_search': 'ytsearch',
             }
             
-            # Загрузка песни
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                try:
-                    info = ydl.extract_info(f"ytsearch:{search_query}", download=True)
-                    if info and 'entries' in info and info['entries']:
-                        logger.info(f"Песня успешно загружена: {output_file}")
-                        return output_file
-                    else:
-                        logger.error(f"Не удалось найти песню: {search_query}")
-                        return None
-                except Exception as e:
-                    logger.error(f"Ошибка при загрузке с YouTube: {e}")
-                    return None
+            # Добавляем куки, если они указаны
+            if self.cookies_file and os.path.exists(self.cookies_file):
+                ydl_opts['cookiefile'] = self.cookies_file
+                logger.info(f"Используем файл с куки: {self.cookies_file}")
             
-            return None
+            # Первая попытка загрузки
+            download_success = await self._try_download(search_query, ydl_opts)
+            
+            # Если первая попытка не удалась, пробуем альтернативные стратегии
+            if not download_success:
+                logger.warning("Первая попытка загрузки не удалась. Пробуем альтернативные методы...")
+
+                # Попытка 5: Прямой поиск с минимальными опциями
+                if not download_success:
+                    # Сбрасываем сложные опции для более простого запроса
+                    minimal_opts = {
+                        'format': 'bestaudio/best',
+                        'outtmpl': output_file,
+                        'noplaylist': True,
+                        'quiet': True,
+                        'ignoreerrors': True,
+                        'nocheckcertificate': True,
+                        'default_search': 'ytsearch',
+                        'postprocessors': [{
+                            'key': 'FFmpegExtractAudio',
+                            'preferredcodec': 'mp3',
+                            'preferredquality': '192',
+                        }],
+                    }
+                    
+                    download_success = await self._try_download(f"{search_query} lyrics", minimal_opts)
+            
+            if download_success and os.path.exists(output_file):
+                logger.info(f"Песня успешно загружена: {output_file}")
+                return output_file
+            else:
+                logger.error(f"Не удалось загрузить песню после всех попыток: {search_query}")
+                return None
+            
         except Exception as e:
             logger.error(f"Ошибка при загрузке полной песни: {e}")
-            return None 
+            return None
+            
+    async def _try_download(self, search_query, ydl_opts):
+        """
+        Попытка загрузки трека с заданными параметрами.
+        
+        Args:
+            search_query (str): Поисковый запрос
+            ydl_opts (dict): Опции для yt-dlp
+            
+        Returns:
+            bool: Успешность загрузки
+        """
+        try:
+            # Убедимся, что search_query не пустой
+            if not search_query or not search_query.strip():
+                logger.error("Пустой поисковый запрос")
+                return False
+                
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                # Проверяем, является ли запрос URL
+                is_url = search_query.startswith(('http://', 'https://', 'www.'))
+                
+                if is_url:
+                    # Если это URL, используем напрямую
+                    info = ydl.extract_info(search_query, download=True)
+                else:
+                    # Если это не URL, используем поисковый префикс
+                    search_prefix = ydl_opts.get('default_search', 'ytsearch')
+                    full_query = f"{search_prefix}:{search_query}"
+                    info = ydl.extract_info(full_query, download=True)
+                
+                if info:
+                    if 'entries' in info and info['entries']:
+                        if len(info['entries']) > 0 and info['entries'][0]:
+                            return True
+                    elif info.get('id'):
+                        # Прямой результат без списка
+                        return True
+                
+                return False
+                
+        except Exception as e:
+            logger.warning(f"Ошибка при попытке загрузки: {str(e)}")
+            return False 
